@@ -17,3 +17,6 @@ input {
 button{
   padding: 10px 15px;
 }
+.concluida {
+  text-decoration: line-through;
+}

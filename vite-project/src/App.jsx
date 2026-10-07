@@ -26,9 +26,25 @@ function App() {
   }
 
   function aoDigitar(event) {
-    setNovaIdeia(event.target.value);
-    setErro("");
+    setNovaIdeia(event.target.value)
+    setErro("")
   }
+
+  function aoConcluir(id) {
+  setIdeias(
+    ideias.map((ideia) =>
+      ideia.id === id
+        ? { ...ideia, feita: !ideia.feita }
+        : ideia
+    )
+  )
+}
+
+function aoRemover(id) {
+  setIdeias(ideias.filter((ideia) => ideia.id !== id));
+}
+
+const concluidas = ideias.filter((ideia) => ideia.feita).length;
 
   return (
     <main>
@@ -51,17 +67,31 @@ function App() {
       {erro && <p>{erro}</p>}
 
       <section>
-        <h2>Minhas ideias</h2>
-
         {ideias.map((ideia) => (
-          <div key={ideia.id}>
-            <p>{ideia.texto}</p>
-          </div>
-        ))}
+  <div key={ideia.id}>
+    <input
+      type="checkbox"
+      checked={ideia.feita}
+      onChange={() => aoConcluir(ideia.id)}/>
+
+    <p className={ideia.feita ? "concluida" : ""}>
+      {ideia.texto}
+    </p>
+
+    <button
+      type="button"
+      onClick={() => aoRemover(ideia.id)}
+    >
+      X
+    </button>
+  </div>
+))}
       </section>
 
       <footer>
-        <p>{ideias.length} ideias no painel · 0 concluídas</p>
+        <p>
+        {ideias.length} ideias no painel · {concluidas} concluídas
+        </p>
       </footer>
     </main>
   );
